@@ -1,4 +1,5 @@
-
-FROM icr.io/ibm/liberty:20.0.0.12-ol-full-java11-openj9
-COPY --chown=1001:0 temperature-converter.war /config/dropins
-RUN configure.sh
+FROM registry.redhat.io/jboss-eap-7/eap73-openjdk11-openshift-rhel8
+COPY temperature-converter.war $JBOSS_HOME/standalone/deployments/
+USER root
+RUN chown jboss:jboss $JBOSS_HOME/standalone/deployments/temperature-converter.war
+USER jboss
